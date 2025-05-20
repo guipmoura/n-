@@ -1,26 +1,36 @@
-public class ArvoreBinaria {
+public class arvorePreordem {
 
-    public int contarNos(No node) {
-        if (node == null) return 0;
-        return 1 + contarNos(node.esquerda) + contarNos(node.direita);
+    static class No {
+        String valor;
+        No esquerda, direita;
+
+        public No(String valor) {
+            this.valor = valor;
+            esquerda = direita = null;
+        }
+    }
+    public void percorrerPreOrdem(No node) {
+        if (node == null) return;
+        System.out.print(node.valor + " ");
+        percorrerPreOrdem(node.esquerda);
+        percorrerPreOrdem(node.direita);
     }
     public static void main(String[] args) {
-        No a = new No(1);
-        No b = new No(2);
-        No c = new No(3);
-        No d = new No(4);
-        No e = new No(5);
-        No f = new No(6);
+        No a = new No("A");
+        No b = new No("B");
+        No c = new No("C");
+        No d = new No("D");
+        No e = new No("E");
+        No f = new No("F");
 
-         a.esquerda = b;
-         a.direita = c;
-         b.esquerda = d;
-         b.direita = e;
-         c.direita = f;
+        a.esquerda = b;
+        a.direita = c;
+        b.esquerda = d;
+        b.direita = e;
+        c.direita = f;
 
-        ArvoreBinaria arvore = new ArvoreBinaria();
-        int totalNos = arvore.contarNos(a);
-
-        System.out.println("Quantidade de nós da árvore" + totalNos);
+        arvorePreordem arvore = new arvorePreordem();
+        System.out.print("Pré-ordem: ");
+        arvore.percorrerPreOrdem(a);
     }
 }
