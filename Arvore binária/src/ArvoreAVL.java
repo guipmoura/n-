@@ -116,7 +116,7 @@ public class ArvoreAVL {
     public static void main(String[] args) {
         ArvoreAVL arvore = new ArvoreAVL();
 
-        int[] valores = {30, 20, 40, 10, 25, 50, 5};
+        int[] valores = {10, 20, 30, 40, 50, 25};
 
         for (int valor : valores) {
             arvore.raiz = arvore.inserir(arvore.raiz, valor);
