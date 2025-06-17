@@ -197,6 +197,75 @@ private NoRubroNegro searchTree(NoRubroNegro node, int chave) {
     } else {
         return searchTree(node.direita, chave);
     }
-}
+  }
+  private void deleteFix(NoRubroNegro x) {
+    while (x != raiz && (x == null || x.cor == Cor.PRETO)) {
+        if (x == x.pai.esquerda) {
+            NoRubroNegro w = x.pai.direita;  
 
+            if (w.cor == Cor.VERMELHO) {
+                w.cor = Cor.PRETO;
+                x.pai.cor = Cor.VERMELHO;
+                rotacaoEsquerda(x.pai);
+                w = x.pai.direita;
+            }
+
+            if ((w.esquerda == null || w.esquerda.cor == Cor.PRETO) &&
+                (w.direita == null || w.direita.cor == Cor.PRETO)) {
+                w.cor = Cor.VERMELHO;
+                x = x.pai;
+            } else {
+                if (w.direita == null || w.direita.cor == Cor.PRETO) {
+                    if (w.esquerda != null) {
+                        w.esquerda.cor = Cor.PRETO;
+                    }
+                    w.cor = Cor.VERMELHO;
+                    rotacaoDireita(w);
+                    w = x.pai.direita;
+                }
+                w.cor = x.pai.cor;
+                x.pai.cor = Cor.PRETO;
+                if (w.direita != null) {
+                    w.direita.cor = Cor.PRETO;
+                }
+                rotacaoEsquerda(x.pai);
+                x = raiz;
+            }
+        } else {
+            NoRubroNegro w = x.pai.esquerda; 
+
+            if (w.cor == Cor.VERMELHO) {
+                w.cor = Cor.PRETO;
+                x.pai.cor = Cor.VERMELHO;
+                rotacaoDireita(x.pai);
+                w = x.pai.esquerda;
+            }
+
+            if ((w.direita == null || w.direita.cor == Cor.PRETO) &&
+                (w.esquerda == null || w.esquerda.cor == Cor.PRETO)) {
+                w.cor = Cor.VERMELHO;
+                x = x.pai;
+            } else {
+                if (w.esquerda == null || w.esquerda.cor == Cor.PRETO) {
+                    if (w.direita != null) {
+                        w.direita.cor = Cor.PRETO;
+                    }
+                    w.cor = Cor.VERMELHO;
+                    rotacaoEsquerda(w);
+                    w = x.pai.esquerda;
+                }
+                w.cor = x.pai.cor;
+                x.pai.cor = Cor.PRETO;
+                if (w.esquerda != null) {
+                    w.esquerda.cor = Cor.PRETO;
+                }
+                rotacaoDireita(x.pai);
+                x = raiz;
+            }
+        }
+    }
+    if (x != null) {
+        x.cor = Cor.PRETO;
+    }
+ }
 }
