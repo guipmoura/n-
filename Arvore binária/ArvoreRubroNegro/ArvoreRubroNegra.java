@@ -31,6 +31,13 @@
 
     insertFix(novoNo);
 }
+  private NoRubroNegro minimum(NoRubroNegro node) {
+    while (node.esquerda != null) {
+        node = node.esquerda;
+    }
+    return node;
+}
+
 
     private void rotacaoEsquerda(NoRubroNegro no) {
         NoRubroNegro direita = no.direita;
@@ -74,49 +81,47 @@
         no.pai = esquerda;
     }
 
-    private void insertFix(NoRubroNegro no) {
-        while (no != raiz && no.pai.cor == Cor.VERMELHO) {
-            NoRubroNegro pai = no.pai;
-            NoRubroNegro avo = pai.pai;
+    private void insertFix(NoRubroNegro k) {
+    while (k != raiz && k.pai.cor == Cor.VERMELHO) {
+        if (k.pai == k.pai.pai.esquerda) {
+            NoRubroNegro tio = k.pai.pai.direita;
 
-            if (pai == avo.esquerda) {
-                NoRubroNegro tio = avo.direita;
-
-                if (tio != null && tio.cor == Cor.VERMELHO) {
-                    pai.cor = Cor.PRETO;
-                    tio.cor = Cor.PRETO;
-                    avo.cor = Cor.VERMELHO;
-                    no = avo;
-                } else {
-                    if (no == pai.direita) {
-                        no = pai;
-                        rotacaoEsquerda(no);
-                    }
-                    pai.cor = Cor.PRETO;
-                    avo.cor = Cor.VERMELHO;
-                    rotacaoDireita(avo);
-                }
+            if (tio != null && tio.cor == Cor.VERMELHO) {
+                k.pai.cor = Cor.PRETO;
+                tio.cor = Cor.PRETO;
+                k.pai.pai.cor = Cor.VERMELHO;
+                k = k.pai.pai;
             } else {
-                NoRubroNegro tio = avo.esquerda;
-
-                if (tio != null && tio.cor == Cor.VERMELHO) {
-                    pai.cor = Cor.PRETO;
-                    tio.cor = Cor.PRETO;
-                    avo.cor = Cor.VERMELHO;
-                    no = avo;
-                } else {
-                    if (no == pai.esquerda) {
-                        no = pai;
-                        rotacaoDireita(no);
-                    }
-                    pai.cor = Cor.PRETO;
-                    avo.cor = Cor.VERMELHO;
-                    rotacaoEsquerda(avo);
+                if (k == k.pai.direita) {
+                    k = k.pai;
+                    rotacaoEsquerda(k);
                 }
+                k.pai.cor = Cor.PRETO;
+                k.pai.pai.cor = Cor.VERMELHO;
+                rotacaoDireita(k.pai.pai);
+            }
+        } else {
+            NoRubroNegro tio = k.pai.pai.esquerda;
+
+            if (tio != null && tio.cor == Cor.VERMELHO) {
+                k.pai.cor = Cor.PRETO;
+                tio.cor = Cor.PRETO;
+                k.pai.pai.cor = Cor.VERMELHO;
+                k = k.pai.pai;
+            } else {
+                if (k == k.pai.esquerda) {
+                    k = k.pai;
+                    rotacaoDireita(k);
+                }
+                k.pai.cor = Cor.PRETO;
+                k.pai.pai.cor = Cor.VERMELHO;
+                rotacaoEsquerda(k.pai.pai);
             }
         }
-        raiz.cor = Cor.PRETO;
     }
+    raiz.cor = Cor.PRETO;
+}
+
 
     public void imprimirArvore() {
         imprimirRecursivo(raiz);
