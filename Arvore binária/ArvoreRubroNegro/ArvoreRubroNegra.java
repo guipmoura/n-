@@ -1,25 +1,36 @@
-public class ArvoreRubroNegra {
+ public class ArvoreRubroNegra {
     private NoRubroNegro raiz;
 
     public void inserir(int chave) {
-        NoRubroNegro novoNo = new NoRubroNegro(chave);
-        raiz = inserirBST(raiz, novoNo);
-        corrigirViolacao(novoNo);
-    }
+    NoRubroNegro novoNo = new NoRubroNegro(chave);
+    novoNo.esquerda = null;
+    novoNo.direita = null;
+    novoNo.cor = Cor.VERMELHO;
 
-    private NoRubroNegro inserirBST(NoRubroNegro raiz, NoRubroNegro no) {
-        if (raiz == null) return no;
+    NoRubroNegro y = null;
+    NoRubroNegro x = raiz;
 
-        if (no.chave < raiz.chave) {
-            raiz.esquerda = inserirBST(raiz.esquerda, no);
-            raiz.esquerda.pai = raiz;
-        } else if (no.chave > raiz.chave) {
-            raiz.direita = inserirBST(raiz.direita, no);
-            raiz.direita.pai = raiz;
+    while (x != null) {
+        y = x;
+        if (novoNo.chave < x.chave) {
+            x = x.esquerda;
+        } else {
+            x = x.direita;
         }
-
-        return raiz;
     }
+
+    novoNo.pai = y;
+
+    if (y == null) {
+        raiz = novoNo;
+    } else if (novoNo.chave < y.chave) {
+        y.esquerda = novoNo;
+    } else {
+        y.direita = novoNo;
+    }
+
+    insertFix(novoNo);
+}
 
     private void rotacaoEsquerda(NoRubroNegro no) {
         NoRubroNegro direita = no.direita;
@@ -63,7 +74,7 @@ public class ArvoreRubroNegra {
         no.pai = esquerda;
     }
 
-    private void corrigirViolacao(NoRubroNegro no) {
+    private void insertFix(NoRubroNegro no) {
         while (no != raiz && no.pai.cor == Cor.VERMELHO) {
             NoRubroNegro pai = no.pai;
             NoRubroNegro avo = pai.pai;
