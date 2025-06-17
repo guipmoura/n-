@@ -64,47 +64,47 @@ public class ArvoreRubroNegra {
     }
 
     private void corrigirViolacao(NoRubroNegro no) {
-        while (no != raiz && no.pai.cor == NoRubroNegro.VERMELHO) {
+        while (no != raiz && no.pai.cor == Cor.VERMELHO) {
             NoRubroNegro pai = no.pai;
             NoRubroNegro avo = pai.pai;
 
             if (pai == avo.esquerda) {
                 NoRubroNegro tio = avo.direita;
 
-                if (tio != null && tio.cor == NoRubroNegro.VERMELHO) {
-                    pai.cor = NoRubroNegro.PRETO;
-                    tio.cor = NoRubroNegro.PRETO;
-                    avo.cor = NoRubroNegro.VERMELHO;
+                if (tio != null && tio.cor == Cor.VERMELHO) {
+                    pai.cor = Cor.PRETO;
+                    tio.cor = Cor.PRETO;
+                    avo.cor = Cor.VERMELHO;
                     no = avo;
                 } else {
                     if (no == pai.direita) {
                         no = pai;
                         rotacaoEsquerda(no);
                     }
-                    pai.cor = NoRubroNegro.PRETO;
-                    avo.cor = NoRubroNegro.VERMELHO;
+                    pai.cor = Cor.PRETO;
+                    avo.cor = Cor.VERMELHO;
                     rotacaoDireita(avo);
                 }
             } else {
                 NoRubroNegro tio = avo.esquerda;
 
-                if (tio != null && tio.cor == NoRubroNegro.VERMELHO) {
-                    pai.cor = NoRubroNegro.PRETO;
-                    tio.cor = NoRubroNegro.PRETO;
-                    avo.cor = NoRubroNegro.VERMELHO;
+                if (tio != null && tio.cor == Cor.VERMELHO) {
+                    pai.cor = Cor.PRETO;
+                    tio.cor = Cor.PRETO;
+                    avo.cor = Cor.VERMELHO;
                     no = avo;
                 } else {
                     if (no == pai.esquerda) {
                         no = pai;
                         rotacaoDireita(no);
                     }
-                    pai.cor = NoRubroNegro.PRETO;
-                    avo.cor = NoRubroNegro.VERMELHO;
+                    pai.cor = Cor.PRETO;
+                    avo.cor = Cor.VERMELHO;
                     rotacaoEsquerda(avo);
                 }
             }
         }
-        raiz.cor = NoRubroNegro.PRETO;
+        raiz.cor = Cor.PRETO;
     }
 
     public void imprimirArvore() {
@@ -112,7 +112,7 @@ public class ArvoreRubroNegra {
     }
     private void imprimirRecursivo(NoRubroNegro no) {
         if (no != null) {
-            System.out.println(no.chave + " (" + (no.cor == NoRubroNegro.VERMELHO ? "V" : "P") + ")");
+            System.out.println(no.chave + " (" + (no.cor == Cor.VERMELHO ? "V" : "P") + ")");
             imprimirRecursivo(no.esquerda);
             imprimirRecursivo(no.direita);
         }
