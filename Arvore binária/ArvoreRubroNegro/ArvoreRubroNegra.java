@@ -126,11 +126,77 @@
     public void imprimirArvore() {
         imprimirRecursivo(raiz);
     }
-    private void imprimirRecursivo(NoRubroNegro no) {
+    private void toString(NoRubroNegro no) {
         if (no != null) {
             System.out.println(no.chave + " (" + (no.cor == Cor.VERMELHO ? "V" : "P") + ")");
             imprimirRecursivo(no.esquerda);
             imprimirRecursivo(no.direita);
         }
     }
+  public void delete(int chave) {
+    NoRubroNegro z = searchTree(root, chave);
+    if (z == null) return;
+
+    NoRubroNegro y = z;
+    boolean yOriginalColor = y.cor;
+    NoRubroNegro x;
+
+    if (z.esquerda == null) {
+        x = z.direita;
+        transplant(z, z.direita);
+    } else if (z.direita == null) {
+        x = z.esquerda;
+        transplant(z, z.esquerda);
+    } else {
+        y = minimum(z.direita);
+        yOriginalColor = y.cor;
+        x = y.direita;
+        if (y.pai == z) {
+            if (x != null) {
+                x.pai = y;
+            }
+        } else {
+            transplant(y, y.direita);
+            y.direita = z.direita;
+            if (y.direita != null) {
+                y.direita.pai = y;
+            }
+        }
+
+        transplant(z, y);
+        y.esquerda = z.esquerda;
+        if (y.esquerda != null) {
+            y.esquerda.pai = y;
+        }
+        y.cor = z.cor;
+    }
+
+    if (yOriginalColor == NoRubroNegro.PRETO) {
+        deleteFix(x);
+    }
+ }
+  private void transplant(NoRubroNegro u, NoRubroNegro v) {
+    if (u.pai == null) {
+        root = v;
+    } else if (u == u.pai.esquerda) {
+        u.pai.esquerda = v;
+    } else {
+        u.pai.direita = v;
+    }
+    if (v != null) {
+        v.pai = u.pai;
+    }
+}
+private NoRubroNegro searchTree(NoRubroNegro node, int chave) {
+    if (node == null || chave == node.chave) {
+        return node;
+    }
+
+    if (chave < node.chave) {
+        return searchTree(node.esquerda, chave);
+    } else {
+        return searchTree(node.direita, chave);
+    }
+}
+
 }
