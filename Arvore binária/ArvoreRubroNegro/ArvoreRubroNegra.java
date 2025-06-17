@@ -268,4 +268,14 @@ private NoRubroNegro searchTree(NoRubroNegro node, int chave) {
         x.cor = Cor.PRETO;
     }
  }
+  public void inorder() {
+    inorderHelper(raiz);
+    System.out.println();
+ }
+  private void inorderHelper(NoRubroNegro no) {
+    if (no != null) {
+        inorderHelper(no.esquerda);
+        System.out.print(no.chave + " (" + (no.cor == Cor.VERMELHO ? "V" : "P") + ") ");
+        inorderHelper(no.direita);
+    }
 }
